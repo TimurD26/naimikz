@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use App\Models\order;
+use App\Models\Order;
 
 class OrderController extends Controller{
 
@@ -9,45 +9,53 @@ class OrderController extends Controller{
     {
      $order = new Order();
 
-     $order -> category_id=$request->category_id;
-     $order -> isModerated=$request->isModerated;
-     $order -> text=$request->text;
-     $order -> url_to_photo=$request->url_to_photo;
-     $order -> sum=$request->sum;
-     $order -> tel_number=$request->tel_number;
-     $order -> address=$request->address;
-     $order -> isActive=$request->isActive;
+     $order->category_id = $request->category_id;
+     $order->isModerated = $request->isModerated;
+     $order->text = $request->text;
+     $order->url_to_photo = $request->url_to_photo;
+     $order->sum = $request->sum;
+     $order->tel_number = $request->tel_number;
+     $order->address = $request->address;
+     $order->isActive = $request->isActive;
 
      $order->save();
      return $order;
     }
     public function get_all()
     {
-        $users=Order::all();
+        $users=Order::paginate(15);
         return $users;
     }
     public function update($id, Request $request )
     {
         $cabinet=Order::find($id);
 
-        $order -> category_id=$request->category_id;
-        $order -> isModerated=$request->isModerated;
-        $order -> text=$request->text;
-        $order -> url_to_photo=$request->url_to_photo;
-        $order -> sum=$request->sum;
-        $order -> tel_number=$request->tel_number;
-        $order -> address=$request->address;
-        $order -> isActive=$request->isActive;
+        $order->category_id = $request->category_id;
+        $order->isModerated = $request->isModerated;
+        $order->text = $request->text;
+        $order->url_to_photo = $request->url_to_photo;
+        $order->sum = $request->sum;
+        $order->tel_number = $request->tel_number;
+        $order->address = $request->address;
+        $order->isActive = $request->isActive;
         $order->save();
 
         return $order;
     }
     public function destroy($id)
     {
-        $cabinet=Cabinet::find($id);
+        $order=Order::find($id);
         
-        $cabinet->delete();
+        $order->delete();
         // $cabinet->save();
-        return $cabinet;
+        return $order;
+    }
+
+    public function item($id, Request $request) {
+        $order = Order::with('specs')->findOrFail($id);
+
+        // dd($order);
+        return response()->json($order);
+        // return $order;
     }
 }
