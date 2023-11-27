@@ -23,13 +23,13 @@ class OrderController extends Controller{
     }
     public function get_all()
     {
-        $users=Order::paginate(15);
-        return $users;
+        $orders=Order::paginate(15);
+        return $orders;
     }
     public function update($id, Request $request )
     {
-        $cabinet=Order::find($id);
-
+        $order=Order::find($id);
+ //dd($request->category_id);
         $order->category_id = $request->category_id;
         $order->isModerated = $request->isModerated;
         $order->text = $request->text;

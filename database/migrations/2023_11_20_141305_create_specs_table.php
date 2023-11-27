@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('Full_name');
             $table->string('Age');
             $table->string('About');
-            $table->string('Services_and_:Prices');
+            $table->string('Services_and_Prices');
             $table->string('work_experience');
             $table->string('url_to_photo');
             $table->string('education');
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('spec');
+        Schema::dropIfExists('specs');
     }
 };

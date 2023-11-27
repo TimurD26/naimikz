@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasMany;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Spec;
 use App\Models\Respoce;
+use App\Models\Category;
 
 class Order extends Model
 {

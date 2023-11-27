@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SpecController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,4 +22,25 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('order/get_all', [OrderController::class, 'get_all']);
 Route::get('order/{id}', [OrderController::class, 'item']);
+Route::post('order', [OrderController::class, 'create']);
+Route::put('order/{id}', [OrderController::class, 'update']);
+Route::delete('order/{id}', [OrderController::class, 'destroy']);
+
+Route::get('spec/get_all_Respoce', [SpecController::class, 'get_all_Respoce']);
+Route::post('spec/create_Respoce', [SpecController::class, 'create_Respoce']);
+Route::post('spec/create', [SpecController::class, 'create']);
+Route::get('spec/get_all', [SpecController::class, 'get_all']);
+Route::put('spec/{id}', [SpecController::class, 'update']);
+Route::delete('spec/{id}', [SpecController::class, 'destroy']);
+
+Route::get('category/get_all', [CategoryController::class, 'get_all']);
+Route::post('category', [CategoryController::class, 'create']);
+Route::put('category/{id}', [CategoryController::class, 'update']);
+Route::delete('category/{id}', [CategoryController::class, 'destroy']);
+
+Route::get('review/get_all', [ReviewController::class, 'get_all']);
+Route::post('review', [ReviewController::class, 'create']);
+Route::put('review/{id}', [ReviewController::class, 'update']);
+Route::delete('review/{id}', [ReviewController::class, 'destroy']);
