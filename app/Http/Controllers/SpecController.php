@@ -16,7 +16,9 @@ class SpecController extends Controller
         $respoce = new Respoce();
         $respoce->order_id = $request->order_id;
         $respoce->spec_id = $request->spec_id;
-        
+
+        $respoce->save();
+        return $respoce;
     }
     public function get_all_Respoce()
     {
@@ -45,7 +47,7 @@ class SpecController extends Controller
     }
     public function update($id, Request $request )
     {
-        $cabinet=Spec::find($id);
+        $spec=Spec::find($id);
 
         $spec->Full_name = $request->Full_name;
         $spec->Age = $request->Age;

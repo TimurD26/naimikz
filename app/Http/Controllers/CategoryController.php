@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
-class CategoryConrtoller extends Controller
+class CategoryController extends Controller
 {
     public function create(Request $request)
     {
      $category = new Category();
-     $category->name = $request->name;
+     $category->category_name = $request->category_name;
      $category->save();
      return $category;
     }
@@ -21,7 +21,7 @@ class CategoryConrtoller extends Controller
     public function update($id, Request $request )
     {
         $category=Category::find($id);
-        $category->name = $request->name;
+        $category->category_name = $request->category_name;
 
         $category->save();
         return $category;
