@@ -17,10 +17,31 @@ use App\Http\Controllers\ReviewController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+// routes/api.php
+
+use App\Http\Controllers\AuthController;
+
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::middleware(['sortResponse'])->group(function () {
+    // Routes within this group will use the 'sortResponse' middleware
+
+    Route::get('/example', function () {
+        // Your route logic here 
+    });
+});
+
+Route::post('/register', [RegistrationController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout']);
+Route::post('/me', [AuthController::class, 'me']);
+
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('order/get_all', [OrderController::class, 'get_all']);
 Route::get('order/{id}', [OrderController::class, 'item']);

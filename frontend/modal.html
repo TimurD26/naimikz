@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Trigger button -->
+<button onclick="openModal()">Open Modal</button>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+    <span onclick="closeModal()" style="cursor: pointer; float: right;">&times;</span>
+    <pre>
+{
+    "id": 5,
+    "category_id": 1,
+    "isModerated": true,
+    "text": "dsafsadf",
+    "url_to_photo": "asdfsdaf",
+    "sum": "123123",
+    "tel_number": "123123",
+    "address": "123123",
+    "isActive": true,
+    "created_at": null,
+    "updated_at": null,
+    "specs": []
+}
+    </pre>
+</div>
+
+<!-- The Overlay -->
+<div id="overlay" class="overlay" onclick="closeModal()"></div>
+
+<script>
+    function openModal() {
+        document.getElementById('myModal').style.display = 'block';
+        document.getElementById('overlay').style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('myModal').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+    }
+</script>
+
+</body>
+</html>

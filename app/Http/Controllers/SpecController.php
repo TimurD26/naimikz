@@ -9,10 +9,10 @@ class SpecController extends Controller
 {
     public function create_Respoce(Request $request)
     {
-        // $request->validate([
-        //     'order_id' => ['required', 'integer'],
-        //     'spec_id' => ['required', 'integer'],
-        //   ]);
+        $request->validate([
+            'order_id' => ['required', 'integer'],
+            'spec_id' => ['required', 'integer'],
+          ]);
         $respoce = new Respoce();
         $respoce->order_id = $request->order_id;
         $respoce->spec_id = $request->spec_id;
@@ -45,6 +45,11 @@ class SpecController extends Controller
         $specs=Spec::paginate(15);
         return $specs;
     }
+    public function get_certain_specialist()
+    {
+        $spec=Spec::find($id);
+        return $specs;
+    }
     public function update($id, Request $request )
     {
         $spec=Spec::find($id);
@@ -65,7 +70,7 @@ class SpecController extends Controller
         $spec=Spec::find($id);
         
         $spec->delete();
-        // $cabinet->save();
+        
         return $spec;
     }
 }

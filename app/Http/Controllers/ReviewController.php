@@ -8,6 +8,13 @@ class ReviewController extends Controller
 {
     public function create(Request $request)
     {
+        $request->validate([
+            'spec_id' => ['required', 'integer'],
+            'review_mark' => ['required', 'string'],
+            'text' => ['required', 'string'],
+            'name' => ['required', 'string'],
+            'url_to_photo' => ['required', 'string'],
+          ]);
      $review = new Review();
      $review->spec_id = $request->spec_id;
      $review->review_mark = $request->review_mark;

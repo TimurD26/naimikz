@@ -8,6 +8,9 @@ class CategoryController extends Controller
 {
     public function create(Request $request)
     {
+        $request->validate([
+            'category_name' => ['required', 'string']
+          ]);
      $category = new Category();
      $category->category_name = $request->category_name;
      $category->save();
