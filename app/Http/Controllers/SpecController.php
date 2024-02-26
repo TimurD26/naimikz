@@ -11,11 +11,11 @@ class SpecController extends Controller
     {
         $request->validate([
             'order_id' => ['required', 'integer'],
-            'spec_id' => ['required', 'integer'],
+            'user_id' => ['required', 'integer'],
           ]);
         $respoce = new Respoce();
         $respoce->order_id = $request->order_id;
-        $respoce->spec_id = $request->spec_id;
+        $respoce->user_id = $request->user_id;
 
         $respoce->save();
         return $respoce;
@@ -24,6 +24,14 @@ class SpecController extends Controller
     {
         $users=Respoce::paginate(15);
         return $users;
+    }
+    public function get_respon_by_order_id($order_id, Request $request) {
+        // $order = Order::find($user_id);
+        // $record = Order::where('user_id', $user_id)->firstOrFail();
+        $records = Respoce::where('order_id', $order_id)->get();
+        // dd($order);
+        return response()->json($records);
+        // return $order;
     }
     public function create(Request $request)
     {

@@ -10,7 +10,7 @@ use App\Models\Category;
 
 class Order extends Model
 {
-    protected $fillable=['category_id','isModerated','text','url_to_photo','sum','tel_number','address','isActive'];
+    protected $fillable=['category_id','user_id','isModerated','text','url_to_photo','sum','tel_number','address','isActive'];
 
     public function respoces()
     {

@@ -40,16 +40,19 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::post('/me', [AuthController::class, 'me']);
 
+
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('order/get_all', [OrderController::class, 'get_all']);
 Route::get('order/{id}', [OrderController::class, 'item']);
+Route::get('order/by_user_id/{id}', [OrderController::class, 'item_user_id']);
 Route::post('order', [OrderController::class, 'create']);
 Route::put('order/{id}', [OrderController::class, 'update']);
 Route::delete('order/{id}', [OrderController::class, 'destroy']);
 
 Route::get('spec/get_all_Respoce', [SpecController::class, 'get_all_Respoce']);
+Route::get('spec/get_Respoce_by_order_id/{id}', [SpecController::class, 'get_respon_by_order_id']);
 Route::post('spec/create_Respoce', [SpecController::class, 'create_Respoce']);
 Route::post('spec/create', [SpecController::class, 'create']);
 Route::get('spec/get_all', [SpecController::class, 'get_all']);
