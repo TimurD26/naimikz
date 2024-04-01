@@ -25,12 +25,14 @@ class OrderController extends Controller{
 
      return $order;
     }
+
     public function get_all()
     {
         $orders=Order::paginate(1500);
         // item();
         return $orders;
     }
+    
     public function update($id, Request $request )
     {
         $order=Order::find($id);
@@ -49,7 +51,7 @@ class OrderController extends Controller{
     }
     public function destroy($id)
     {
-        $order=Order::find($id);
+        $order=Order::findOrFail($id);
         
         $order->delete();
         // $cabinet->save();

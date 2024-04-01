@@ -32,7 +32,7 @@ $(document).ready(function() {
         }
     });
 
-    
+   
 
     function fetchUserIds(orderId, userIdsContainer) {
         // Make an AJAX request to your API
@@ -41,6 +41,9 @@ $(document).ready(function() {
             .then(records => {
                 // Extract and display user IDs
                 const userIds = records.map(record => record.user_id);
+                // Reset content of userIdsContainer
+                userIdsContainer.textContent = ''; // Clear existing content
+           
                 const existingContent = userIdsContainer.textContent;
                 const newContent = existingContent ? existingContent + ', ' + userIds.join(', ') : userIds.join(', ');
                 userIdsContainer.textContent = newContent;
@@ -49,67 +52,88 @@ $(document).ready(function() {
                 console.error('Error fetching user IDs:', error);
             });
     }
+    var temp1;
+    var temp2;
+
+
+    var userIdsContainers = {}; // Object to store userIdsContainer elements
+    var addedResponses = {}; // Object to store flags indicating if a response has been added for an order
     
     function displayOrders(orders) {
         var ordersList = $('#orders-list');
-        
-        // Iterate through each order and display it
+    
         orders.forEach(function(order) {
             var userIdsContainer = document.createElement('div');
             userIdsContainer.className = 'user-ids-container';
     
-            // Call the fetchUserIds function with the order ID you want to retrieve records for
             fetchUserIds(order.id, userIdsContainer);
     
             var orderHtml = '<div class="order">' +
-                                `<p><strong>ID:</strong> ${order.id}</p>` +
-                                `<p><strong>Address:</strong> ${order.address}</p>` +
-                                `<p><strong>Category ID:</strong> ${order.category_id}</p>` +
-                                `<p><strong>Created At:</strong> ${order.created_at}</p>` +
-                                `<p><strong>Sum:</strong> ${order.sum}</p>` +
-                                `<p><strong>Tel Number:</strong> ${order.tel_number}</p>` +
-                                `<p><strong>Text:</strong> ${order.text}</p>` +
-                                `<p><strong>Updated At:</strong> ${order.updated_at}</p>` +
-                                `<p><strong>User ID:</strong> ${order.user_id}</p>` +
-                                `<p><strong>Spec ID:</strong> <span class="spec-id" style="display:none;"></span></p>` +
-                                `<button class="add-response-btn" data-order-id="${order.id}">Add Response</button>` +
-                            '</div>';
+                `<p><strong>ID:</strong> ${order.id}</p>` +
+                `<p><strong>Address:</strong> ${order.address}</p>` +
+                `<p><strong>Category ID:</strong> ${order.category_id}</p>` +
+                `<p><strong>Created At:</strong> ${order.created_at}</p>` +
+                `<p><strong>Sum:</strong> ${order.sum}</p>` +
+                `<p><strong>Tel Number:</strong> ${order.tel_number}</p>` +
+                `<p><strong>Text:</strong> ${order.text}</p>` +
+                `<p><strong>Updated At:</strong> ${order.updated_at}</p>` +
+                `<p><strong>User ID:</strong> ${order.user_id}</p>` +
+                `<p><strong>Spec ID:</strong> <span class="spec-id" style="display:none;"></span></p>` +
+                `<button class="add-response-btn" data-order-id="${order.id}" data-user-id="${order.user_id}">Add Response</button>` +
+                '</div>';
     
             var orderElement = $(orderHtml);
-            orderElement.append(userIdsContainer); // Append the userIdsContainer to the order element
+            orderElement.append(userIdsContainer);
             ordersList.append(orderElement);
+    
+            // Store the userIdsContainer element in the userIdsContainers object
+            userIdsContainers[order.id] = userIdsContainer;
+    
+            // Initialize the addedResponses flag for this order to false
+            addedResponses[order.id] = false;
         });
     }
+    
     $(document).on('click', '.add-response-btn', function() {
         var orderId = $(this).data('order-id');
-        addResponse(orderId);
+        var userId = $(this).data('user-id');
+        
+        // Check if response has already been added for this order
+        if (addedResponses[orderId]) {
+            console.log('Response already added for this order:', orderId);
+            return;
+        }
+    
+        // Add response for unique user ID
+        addResponse(orderId, userId);
     });
-    function addResponse(orderId) {
-        // This is a placeholder function to get the spec_id
-        // You should replace this with your logic to get the spec_id for the order
+    
+    function addResponse(orderId, userId) {
         console.log(user_id1);
     
-        // Make AJAX request to the create_Response API endpoint
         $.ajax({
             url: 'http://naimikz-project/api/spec/create_Respoce',
             type: 'POST',
             dataType: 'json',
             data: {
                 order_id: orderId,
-                user_id: user_id1
+                user_id: userId
             },
             success: function(response) {
-                // Handle success response
                 console.log('Response added:', response);
-                // Here you can update the UI if needed
-                // $('.order').find('[data-order-id="' + orderId + '"]').siblings('.user-id').text('Spec ID: ' + userId).show();
+                // Update the corresponding userIdsContainer with the new response
+                fetchUserIds(orderId, userIdsContainers[orderId]);
+                
+                // Set the addedResponses flag for this order to true
+                addedResponses[orderId] = true;
             },
             error: function(xhr, status, error) {
-                // Handle error response
                 console.error('Error adding response:', error);
-                // Display error message to the user if needed
                 alert('Error adding response. Please try again later.');
             }
         });
     }
+    
+
+    
 });

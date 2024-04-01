@@ -2,6 +2,7 @@ var user_id1 = 0;
 
 window.onload = function() {
     printUserInfoFromLocalStorage();
+    getCategories();
 };
 
 function printUserInfoFromLocalStorage() {
@@ -103,5 +104,29 @@ function displayOrders(orders) {
 
         // Append the list item to the orders list
         ordersList.appendChild(listItem);
+    });
+}
+
+function getCategories(){
+    $.ajax({
+        url: 'http://naimikz-project/api/categories', //
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            console.log(response);
+            setCategories(response); // Call function to display orders
+        },
+        error: function(xhr, status, error) {
+            console.error(error); // Log any errors to console
+        }
+    });
+}
+
+function setCategories(categories){
+    categories.forEach(function(category) {
+        $( "#category_id" ).append( `<option value="${category.id}">${category.category_name}</option>` );
+        // categoryList.innerHTML = `
+        //     <option value="${category.id}">${category.category_name}</option>
+        // `;
     });
 }

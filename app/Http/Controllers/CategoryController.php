@@ -10,31 +10,38 @@ class CategoryController extends Controller
     {
         $request->validate([
             'category_name' => ['required', 'string']
-          ]);
-     $category = new Category();
-     $category->category_name = $request->category_name;
-     $category->save();
-     return $category;
+        ]);
+
+        $category = new Category();
+        $category->category_name = $request->category_name;
+        $category->save();
+
+        return $category;
     }
-    public function get_all()
+
+    public function getAll()
     {
-        $categories=Category::paginate(15);
+        $categories = Category::get();
+
         return $categories;
     }
+
     public function update($id, Request $request )
     {
-        $category=Category::find($id);
+        $category = Category::find($id);
         $category->category_name = $request->category_name;
 
         $category->save();
+
         return $category;
     }
+
     public function destroy($id)
     {
-        $category=Category::find($id);
+        $category = Category::find($id);
         
         $category->delete();
-        // $cabinet->save();
+
         return $category;
     }
 }

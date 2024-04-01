@@ -37,9 +37,9 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-            $credentials = $request->validate([
-                'email' => 'required',
-                'password' => 'required',
+        $credentials = $request->validate([
+            'email' => 'required',
+            'password' => 'required',
             ]);
     
             if (!$token = JWTAuth::attempt($credentials)) {
@@ -52,16 +52,16 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
             // Invalidate the token by adding it to the blacklist
-            $token = $request->bearerToken();
-            JWTAuth::parseToken()->invalidate($token);
+        $token = $request->bearerToken();
+        JWTAuth::parseToken()->invalidate($token);
     
-            return response()->json(['message' => 'Logout successful']);
+        return response()->json(['message' => 'Logout successful']);
     }
     
     public function me(Request $request)
     {
-            $user = JWTAuth::user();
-            return response()->json($user);
+        $user = JWTAuth::user();
+        return response()->json($user);
     }
    
 }

@@ -71,76 +71,67 @@ $(document).ready(function() {
     var temp1;
     var temp2;
 
-    function displayOrders(orders) {
-        var ordersList = $('#orders-list');
-        
-        // Iterate through each order and display it
-        orders.forEach(function(order) {
-            var userIdsContainer = document.createElement('div');
-            userIdsContainer.className = 'user-ids-container';
-    
-            // Call the fetchUserIds function with the order ID you want to retrieve records for
-            fetchUserIds(order.id, userIdsContainer);
+    var userIdsContainers = {}; // Object to store userIdsContainer elements
 
-            temp1=order.id;
-            temp2=userIdsContainer;
-    
-            var orderHtml = '<div class="order">' +
-                                `<p><strong>ID:</strong> ${order.id}</p>` +
-                                `<p><strong>Address:</strong> ${order.address}</p>` +
-                                `<p><strong>Category ID:</strong> ${order.category_id}</p>` +
-                                `<p><strong>Created At:</strong> ${order.created_at}</p>` +
-                                `<p><strong>Sum:</strong> ${order.sum}</p>` +
-                                `<p><strong>Tel Number:</strong> ${order.tel_number}</p>` +
-                                `<p><strong>Text:</strong> ${order.text}</p>` +
-                                `<p><strong>Updated At:</strong> ${order.updated_at}</p>` +
-                                `<p><strong>User ID:</strong> ${order.user_id}</p>` +
-                                `<p><strong>Spec ID:</strong> <span class="spec-id" style="display:none;"></span></p>` +
-                                `<button class="add-response-btn" data-order-id="${order.id}">Add Response</button>` +
-                            '</div>';
-    
-            var orderElement = $(orderHtml);
-            orderElement.append(userIdsContainer); // Append the userIdsContainer to the order element
-            ordersList.append(orderElement);
-        });
-    }
-    $(document).on('click', '.add-response-btn', function() {
-        var orderId = $(this).data('order-id');
-        addResponse(orderId);
+function displayOrders(orders) {
+    var ordersList = $('#orders-list');
 
-        fetchUserIds(temp1,temp2);
-        
+    orders.forEach(function(order) {
+        var userIdsContainer = document.createElement('div');
+        userIdsContainer.className = 'user-ids-container';
+
+        fetchUserIds(order.id, userIdsContainer);
+
+        var orderHtml = '<div class="order">' +
+            `<p><strong>ID:</strong> ${order.id}</p>` +
+            `<p><strong>Address:</strong> ${order.address}</p>` +
+            `<p><strong>Category ID:</strong> ${order.category_id}</p>` +
+            `<p><strong>Created At:</strong> ${order.created_at}</p>` +
+            `<p><strong>Sum:</strong> ${order.sum}</p>` +
+            `<p><strong>Tel Number:</strong> ${order.tel_number}</p>` +
+            `<p><strong>Text:</strong> ${order.text}</p>` +
+            `<p><strong>Updated At:</strong> ${order.updated_at}</p>` +
+            `<p><strong>User ID:</strong> ${order.user_id}</p>` +
+            `<p><strong>Spec ID:</strong> <span class="spec-id" style="display:none;"></span></p>` +
+            `<button class="add-response-btn" data-order-id="${order.id}">Add Response</button>` +
+            '</div>';
+
+        var orderElement = $(orderHtml);
+        orderElement.append(userIdsContainer);
+        ordersList.append(orderElement);
+
+        // Store the userIdsContainer element in the userIdsContainers object
+        userIdsContainers[order.id] = userIdsContainer;
     });
-    function addResponse(orderId) {
-        // This is a placeholder function to get the spec_id
-        // You should replace this with your logic to get the spec_id for the order
-        console.log(user_id1);
+}
 
-        fetchUserIds(temp1,temp2);
-        console.log(temp1);
-        console.log(temp2);
-        // Make AJAX request to the create_Response API endpoint
-        $.ajax({
-            url: 'http://naimikz-project/api/spec/create_Respoce',
-            type: 'POST',
-            dataType: 'json',
-            data: {
-                order_id: orderId,
-                user_id: user_id1
-            },
-            success: function(response) {
-                // Handle success response
-                console.log('Response added:', response);
-                // Here you can update the UI if needed
-                // $('.order').find('[data-order-id="' + orderId + '"]').siblings('.user-id').text('Spec ID: ' + userId).show();
-                
-            },
-            error: function(xhr, status, error) {
-                // Handle error response
-                console.error('Error adding response:', error);
-                // Display error message to the user if needed
-                alert('Error adding response. Please try again later.');
-            }
-        });
-    }
+$(document).on('click', '.add-response-btn', function() {
+    var orderId = $(this).data('order-id');
+    addResponse(orderId);
+});
+
+function addResponse(orderId) {
+    console.log(user_id1);
+
+    $.ajax({
+        url: 'http://naimikz-project/api/spec/create_Respoce',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            order_id: orderId,
+            user_id: user_id1
+        },
+        success: function(response) {
+            console.log('Response added:', response);
+            // Update the corresponding userIdsContainer with the new response
+            fetchUserIds(orderId, userIdsContainers[orderId]);
+        },
+        error: function(xhr, status, error) {
+            console.error('Error adding response:', error);
+            alert('Error adding response. Please try again later.');
+        }
+    });
+}
+
+    
 });

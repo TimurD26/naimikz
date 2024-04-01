@@ -59,7 +59,7 @@ Route::get('spec/get_all', [SpecController::class, 'get_all']);
 Route::put('spec/{id}', [SpecController::class, 'update']);
 Route::delete('spec/{id}', [SpecController::class, 'destroy']);
 
-Route::get('category/get_all', [CategoryController::class, 'get_all']);
+Route::get('categories', [CategoryController::class, 'getAll']);
 Route::post('category', [CategoryController::class, 'create']);
 Route::put('category/{id}', [CategoryController::class, 'update']);
 Route::delete('category/{id}', [CategoryController::class, 'destroy']);
